@@ -1,0 +1,28 @@
+{
+    "os": "Linux-5.4.0-37-generic-x86_64-with-debian-buster-sid",
+    "python": "3.7.9",
+    "heartbeatAt": "2021-10-01T13:56:02.566461",
+    "startedAt": "2021-10-01T13:56:01.851242",
+    "docker": null,
+    "gpu": "NVIDIA TITAN Xp",
+    "gpu_count": 6,
+    "cpu_count": 80,
+    "cuda": "10.2.89",
+    "args": [
+        "--architecture=lenet",
+        "--lr=0.0005",
+        "--numMCTSSims=10"
+    ],
+    "state": "running",
+    "codePath": "Alpha-Zero/main.py",
+    "program": "main.py",
+    "git": {
+        "remote": "https://github.com/Kevin-Miao/Alpha-Woah",
+        "commit": "328f7cf0bc8b19bb47fb49e1ac3dcdf628bda640"
+    },
+    "email": "kevinmiao@berkeley.edu",
+    "root": "/home/eecs/kevinmiao/AlphaZero",
+    "host": "freddie",
+    "username": "kevinmiao",
+    "executable": "/data/kevinmiao/miniconda3/envs/py37/bin/python"
+}

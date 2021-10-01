@@ -7,6 +7,7 @@ from random import shuffle
 
 import numpy as np
 from tqdm import tqdm
+import wandb
 
 from Arena import Arena
 from MCTS import MCTS
@@ -23,8 +24,8 @@ class Coach():
     def __init__(self, game, nnet, args):
         self.game = game
         self.nnet = nnet
-        self.pnet = self.nnet.__class__(self.game)  # the competitor network
         self.args = args
+        self.pnet = self.nnet.__class__(self.game, architecture=args.architecture, args=self.args)  # the competitor network
         self.mcts = MCTS(self.game, self.nnet, self.args)
         self.trainExamplesHistory = []  # history of examples from args.numItersForTrainExamplesHistory latest iterations
         self.skipFirstSelfPlay = False  # can be overriden in loadTrainExamples()
@@ -117,9 +118,16 @@ class Coach():
             arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
                           lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
             pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
+            wandb.log({'pwins':pwins, 'nwins':nwins, 'draws':draws})
 
             log.info('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
-            if pwins + nwins == 0 or float(nwins) / (pwins + nwins) < self.args.updateThreshold:
+            if (i in np.arange(10)) or ((i % 5) == 0):
+                self.nnet.save_checkpoint(folder=wandb.run.dir, filename= '{}_{}.pth.tar'.format(self.nnet.name, i))
+            if (pwins == nwins) and (pwins == 0):
+                log.info('ACCEPTING NEW MODEL (TIED)')
+                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
+                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+            elif ((pwins == nwins) and (pwins != 0)) or float(nwins) / (pwins + nwins) < self.args.updateThreshold:
                 log.info('REJECTING NEW MODEL')
                 self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             else:
