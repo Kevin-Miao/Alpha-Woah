@@ -17,7 +17,6 @@ def is_space_free(board, move):
 
 def minimax(board, depth, isMax, alpha, beta):
         computerLetter, playerLetter = 1, -1
-        print(board)
 
         if is_winner(board, computerLetter):
                 return 10
