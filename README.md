@@ -23,4 +23,4 @@ This repository is a project for CS294-190: Topics in Deep Reinforcement Learnin
 # Acknowledgements
 
 We graciously borrowed/cloned and adapted the code from the following sources:
--[AlphaZero](https://github.com/suragnair/alpha-zero-general)
+- [AlphaZero](https://github.com/suragnair/alpha-zero-general)
