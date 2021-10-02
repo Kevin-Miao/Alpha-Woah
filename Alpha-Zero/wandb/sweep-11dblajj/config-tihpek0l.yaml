@@ -1,0 +1,8 @@
+wandb_version: 1
+
+architecture:
+  value: mlp
+lr:
+  value: 0.005
+numMCTSSims:
+  value: 25

@@ -1,0 +1,8 @@
+wandb_version: 1
+
+architecture:
+  value: resnet
+lr:
+  value: 0.01
+numMCTSSims:
+  value: 3
