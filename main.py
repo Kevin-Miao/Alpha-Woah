@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--num_channels', default = 512)
     parser.add_argument('-d', '--dropout', default = 0.3)
     parser.add_argument('-g', '--cuda', default = torch.cuda.is_available())
-    parser.add_argument('-r', '--random', default = False)
+    parser.add_argument('-r', '--random', dest='random', action='store_true')
     args = parser.parse_args()
 
 
