@@ -19,21 +19,8 @@ def draw_board(board):
         print('-+-+-')
         print("|".join(["O" if i == 1 else "X" if i == -1 else " " for i in board[2]]))
         
-if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--mctsrollouts', nargs=1, type=int, default=25)
-    parser.add_argument('-a', '--architecture', type=str, default='lenet', help='Pick: lenet, mlpnet, resnet, othellonet')
-    parser.add_argument('-p', '--path', type=str, help='Path to the weights')
-    parser.add_argument('-n', '--n_games', type=int, default = 200)
-    parser.add_argument('-c', '--num_channels', default = 512)
-    parser.add_argument('-d', '--dropout', default = 0.3)
-    parser.add_argument('-g', '--cuda', default = torch.cuda.is_available())
-    parser.add_argument('-r', '--random', dest='random', action='store_true')
-    args = parser.parse_args()
-
-
-    print("Loading Players")
+def run_sim(args):
+    # print("Loading Players")
     g = game()
     nnet = nn(g, args= args, architecture=args.architecture)
     if args.path:
@@ -52,7 +39,7 @@ if __name__ == "__main__":
     agent2_games_won = 0
     agent1_symbol, agent2_symbol = 1, -1
 
-    print("Game Started")
+    # print("Game Started")
     for _ in tqdm.tqdm(range(n_games)):
         board = [[0 for _ in range(3)] for _ in range(3)]
         curr_player = 0 if random.random() < 0.5 else 1
@@ -82,6 +69,26 @@ if __name__ == "__main__":
             #print("RANDOM WINS")
             agent2_games_won += 1
 
-    print("Agent 1 games won: ", agent1_games_won)
-    print("Agent 2 games won: ", agent2_games_won)
-    print("Games drawn: ", n_games-agent1_games_won-agent2_games_won)
+    print(agent1_games_won)
+    print(agent2_games_won)
+    print(n_games-agent1_games_won-agent2_games_won)
+    # print("Agent 1 games won: ", agent1_games_won)
+    # print("Agent 2 games won: ", agent2_games_won)
+    # print("Games drawn: ", n_games-agent1_games_won-agent2_games_won)
+    return agent1_games_won, agent2_games_won, (n_games-agent1_games_won-agent2_games_won)
+
+if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-m', '--mctsrollouts', nargs=1, type=int, default=25)
+    parser.add_argument('-a', '--architecture', type=str, default='lenet', help='Pick: lenet, mlpnet, resnet, othellonet')
+    parser.add_argument('-p', '--path', type=str, help='Path to the weights')
+    parser.add_argument('-n', '--n_games', type=int, default = 200)
+    parser.add_argument('-c', '--num_channels', default = 512)
+    parser.add_argument('-d', '--dropout', default = 0.3)
+    parser.add_argument('-g', '--cuda', default = torch.cuda.is_available())
+    parser.add_argument('-r', '--random', dest='random', action='store_true')
+    args = parser.parse_args()
+
+    run_sim(args)
+
