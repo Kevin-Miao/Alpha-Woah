@@ -1,0 +1,8 @@
+wandb_version: 1
+
+architecture:
+  value: lenet
+lr:
+  value: 0.001
+numMCTSSims:
+  value: 100

@@ -7,11 +7,11 @@ from tqdm import tqdm
 import subprocess
 
 runs = {
-    'cs294-190-hw1/hw1/kap4ytaf':500,
-    'cs294-190-hw1/hw1/az93cnr1':100,
-    'cs294-190-hw1/hw1/egrhegxj':25,
-    'cs294-190-hw1/hw1/vjqagow1':10,
-    'cs294-190-hw1/hw1/rhq1iysc':3}
+    'cs294-190-hw1/hw1/ar28myh4':500,
+    'cs294-190-hw1/hw1/8xc2i42u':100,
+    'cs294-190-hw1/hw1/ewu24fvr':25,
+    'cs294-190-hw1/hw1/cjrkrsam':10,
+    'cs294-190-hw1/hw1/xzdxx6bs':3}
 
 agent1 = {k:np.array([]) for k in [500, 100, 25, 10, 3]}
 agent2 = {k:np.array([]) for k in [500, 100, 25, 10, 3]}
@@ -19,9 +19,11 @@ draws = {k:np.array([]) for k in [500, 100, 25, 10, 3]}
 
 for mode in ['', '-r']:
     for run in tqdm(runs):
-        for it in tqdm(range(1, 11)):
+        for it in tqdm([1,2,3,4,5,6,7,8,9,10,15]):
             path = 'LeNetLeNet_{}.pth.tar'.format(it)
             script = ['python', 'main.py', '-n', '100', '-p', path, '-a', 'lenet', '-m', str(runs[run])]
+            if script[-1] == '500':
+                script[-1] = '200'
             api = wandb.Api()
             r = api.run(run)
             r.file(path).download(replace=True)
@@ -35,11 +37,11 @@ for mode in ['', '-r']:
 
 import pickle
 
-f1 = open('a1.pkl','wb')
+f1 = open('a1-v2.pkl','wb')
 pickle.dump(agent1, f1)
 
-f2 = open('a2.pkl','wb')
+f2 = open('a2-v2.pkl','wb')
 pickle.dump(agent2, f2)
 
-f3 = open('dr.pkl','wb')
+f3 = open('dr-v2.pkl','wb')
 pickle.dump(draws, f3)
