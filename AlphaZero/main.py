@@ -1,6 +1,6 @@
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES'] = "3, 4"  # Making sure it's only using one GPU
+os.environ['CUDA_VISIBLE_DEVICES'] = "3"  # Making sure it's only using one GPU
 
 import logging
 

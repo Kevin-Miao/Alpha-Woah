@@ -121,8 +121,6 @@ class Coach():
             wandb.log({'pwins':pwins, 'nwins':nwins, 'draws':draws})
 
             log.info('NEW/PREV WINS : %d / %d ; DRAWS : %d' % (nwins, pwins, draws))
-            if (i in np.arange(10)) or ((i % 5) == 0):
-                self.nnet.save_checkpoint(folder=wandb.run.dir, filename= '{}_{}.pth.tar'.format(self.nnet.name, i))
             if (pwins == nwins) and (pwins == 0):
                 log.info('ACCEPTING NEW MODEL (TIED)')
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
@@ -134,6 +132,8 @@ class Coach():
                 log.info('ACCEPTING NEW MODEL')
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+            if (i in np.arange(10)) or ((i % 5) == 0):
+                self.nnet.save_checkpoint(folder=wandb.run.dir, filename= '{}_{}.pth.tar'.format(self.nnet.name, i))
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'
